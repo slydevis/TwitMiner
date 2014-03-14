@@ -1,9 +1,6 @@
 package fr.univaix.iut.pokebattle.bot;
 
-import twitter4j.Status;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
+import twitter4j.*;
 
 import java.util.List;
 
@@ -13,13 +10,19 @@ import java.util.List;
 
 public class App {
     public static void main(String[] args) throws TwitterException {
+
         Twitter twitter = TwitterFactory.getSingleton();
-        System.out.println(twitter.getAPIConfiguration());
-        List<Status> statuses = twitter.getUserTimeline("@viedemerde");
-        System.out.println("Showing home timeline.");
-        for (Status status : statuses) {
-            System.out.println(status.getUser().getName() + ":" +
-                    status.getText() + " " + status.getCreatedAt());
-        }
+        Query query = new Query("@viedemerde");
+        query.setCount(10000);
+        QueryResult result=twitter.search(query);
+        do{
+            List<Status> tweets = result.getTweets();
+            for(Status tweet: tweets){
+                System.out.println("Tweet: "+tweet.getText());
+            }
+            query=result.nextQuery();
+            if(query!=null)
+                result=twitter.search(query);
+        }while(query!=null);
     }
 }
