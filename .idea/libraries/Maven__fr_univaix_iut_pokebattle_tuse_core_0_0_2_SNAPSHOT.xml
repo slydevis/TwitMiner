@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: fr.univaix.iut.pokebattle:tuse-core:0.0.2-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/fr/univaix/iut/pokebattle/tuse-core/0.0.2-SNAPSHOT/tuse-core-0.0.2-20140225.224307-1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/fr/univaix/iut/pokebattle/tuse-core/0.0.2-SNAPSHOT/tuse-core-0.0.2-20140225.224307-1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/fr/univaix/iut/pokebattle/tuse-core/0.0.2-SNAPSHOT/tuse-core-0.0.2-20140225.224307-1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
