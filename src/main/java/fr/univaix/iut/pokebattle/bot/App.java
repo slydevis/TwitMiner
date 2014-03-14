@@ -12,14 +12,15 @@ import java.util.List;
  */
 
 public class App {
+	
     public static void main(String[] args) throws TwitterException {
         Twitter twitter = TwitterFactory.getSingleton();
         System.out.println(twitter.getAPIConfiguration());
         List<Status> statuses = twitter.getUserTimeline("@viedemerde");
         System.out.println("Showing home timeline.");
         for (Status status : statuses) {
-            System.out.println(status.getUser().getName() + ":" +
-                    status.getText() + " " + status.getCreatedAt());
+            System.out.println("\"" + status.getCreatedAt() + ";" + status.getUser().getName() + ":" +
+                    status.getText().replace(' ', ';') + "\"" );
         }
     }
 }
