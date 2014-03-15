@@ -13,18 +13,20 @@ import java.util.List;
  */
 
 public class App {
-    public String GetResult() throws TwitterException {
+    public String GetResult(String cible) throws TwitterException {
         String resulte ="";
         Twitter twitter = TwitterFactory.getSingleton();
-        Query query = new Query("@viedemerde");
+        Query query = new Query(cible);
         query.setCount(10000);
         QueryResult result=twitter.search(query);
         List<Status> tweets;
         do{
             tweets = result.getTweets();
             for(Status tweet: tweets){
-                resulte += "Tweet: "+ tweet.getCreatedAt() + ";" + tweet.getUser().getName() + ":" + 
-                		((tweet.getText().replace(' ', ';')).replace('é', 'e')).replace('è', 'e') + "\"" + '\n';
+                resulte += "Tweet: "+ tweet.getCreatedAt() + ";" + ((tweet.getUser().getName()).replace('é', 'e')).replace('è', 'e') + ":" + 
+            ((((((tweet.getText().replace(' ', ';')).replace('é', 'e')).replace('è', 'e')).replace('ê', 'e')).replace('ô', 'o'))
+            		.replace('à', 'a')).replace('ç', 'c')
+                		+ "\"" + '\n';
             }
             query=result.nextQuery();
             if(query!=null)
@@ -39,7 +41,12 @@ public class App {
             BufferedWriter bw = new BufferedWriter (fw) ;
             bw.newLine();
             PrintWriter pw = new PrintWriter(bw) ;
-            pw.print(GetResult()) ;
+            pw.print(GetResult("@viedemerde"));
+            pw.print(GetResult("@Microsoft"));
+            pw.print(GetResult("@JournalDuGeek"));
+            pw.print(GetResult("@SouthPark"));
+            pw.print(GetResult("@google"));
+            pw.print(GetResult("@LesGuignols"));
             pw.close();
         }
         catch ( IOException e ) {
