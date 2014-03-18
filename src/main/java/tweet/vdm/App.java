@@ -1,12 +1,13 @@
 package tweet.vdm;
 
+import com.sun.java.swing.plaf.motif.resources.motif;
 import twitter4j.*;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by guillaume on 14/03/14.
@@ -14,39 +15,47 @@ import java.util.List;
 
 public class App {
     public String GetResult(String cible) throws TwitterException {
-        String resulte ="";
+
+        String resulte = "";
         Twitter twitter = TwitterFactory.getSingleton();
         Query query = new Query(cible);
-        query.setCount(10000);
-        QueryResult result=twitter.search(query);
-        List<Status> tweets;
-        do{
-            tweets = result.getTweets();
-            for(Status tweet: tweets){
-                resulte += "Tweet: "+ tweet.getCreatedAt() + ";" + ((tweet.getUser().getName()).replace('é', 'e')).replace('è', 'e') + ":" + 
-            ((((((tweet.getText().replace(' ', ';')).replace('é', 'e')).replace('è', 'e')).replace('ê', 'e')).replace('ô', 'o'))
-            		.replace('à', 'a')).replace('ç', 'c')
-                		+ "\"" + '\n';
-            }
-            query=result.nextQuery();
-            if(query!=null)
-                result=twitter.search(query);
-        } while(query!=null);
+        int numberOfTweets = 10000;
+        long lastID = Long.MAX_VALUE;
+        ArrayList<Status> tweets = new ArrayList<Status>();
+        while (tweets.size () < numberOfTweets) {
+            if (numberOfTweets - tweets.size() > 100)
+                query.setCount(100);
+            else
+                query.setCount(numberOfTweets - tweets.size());
+                QueryResult result = twitter.search(query);
+                tweets.addAll(result.getTweets());
+                for (Status t: tweets)
+                    if(t.getId() < lastID) lastID = t.getId();
+            query.setMaxId(lastID-1);
+        }
+
+        for(Status tweet: tweets){
+            String message = tweet.getText();
+            resulte += "\"" + tweet.getCreatedAt() + "\"" + ";"
+                    + "\"" + "@" + tweet.getUser().getScreenName() + "\"" + ";"+ "\"";
+                    for(int i = 0; i < message.length(); ++i)
+                    {
+                        if(message.charAt(i) != ' ' && message.charAt(i) != '\n')
+                            resulte += message.charAt(i);
+                        else resulte += "\"" +";" + "\"" ;
+                    }
+                    resulte += "\"" + '\n';
+        }
         return resulte;
     }
 
-    public void CreateFile() throws TwitterException {
+        public void CreateFile() throws TwitterException {
         try {
             FileWriter fw = new FileWriter("resources.csv") ;
             BufferedWriter bw = new BufferedWriter (fw) ;
             bw.newLine();
             PrintWriter pw = new PrintWriter(bw) ;
-            pw.print(GetResult("@viedemerde"));
-            pw.print(GetResult("@Microsoft"));
-            pw.print(GetResult("@JournalDuGeek"));
-            pw.print(GetResult("@SouthPark"));
-            pw.print(GetResult("@google"));
-            pw.print(GetResult("@LesGuignols"));
+            pw.print(GetResult("#linux"));
             pw.close();
         }
         catch ( IOException e ) {
