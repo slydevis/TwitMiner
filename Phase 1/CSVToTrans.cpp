@@ -1,3 +1,9 @@
+/*
+ * CSVToTrans.cpp
+ *
+ *  Created on: 24 mars 2014
+ *      Author: p12003701
+ */
 #include <vector>
 #include <iostream>
 #include <fstream>
@@ -62,7 +68,7 @@ namespace CSVToTrans
 			std::string tmp;
 			for(getline(is, buff);!is.eof();getline(is,buff))
 			{
-				for(int i = 32; i < buff.size();++i)
+				for(unsigned i = 32; i < buff.size();++i)
 				{
 					tmp += buff[i];
 				}
@@ -72,7 +78,7 @@ namespace CSVToTrans
 				tmp += ';';
 				std::vector<std::string> Tabulation = Explode(tmp, ' ');
 				tmp = "";
-				for(int i = 0; i < Tabulation.size(); ++i)
+				for(unsigned i = 0; i < Tabulation.size(); ++i)
 				{
 					Tabulation[i] = ToLower(Tabulation[i]);
 					Tab.push_back(Tabulation[i]);
@@ -103,7 +109,7 @@ namespace CSVToTrans
 				int Cpt = 0;
 				int id = 0;
 				int NbTransact = 0;
-				for(int i = 0; i != Tab.size(); ++i)
+				for(unsigned i = 0; i != Tab.size(); ++i)
 				{
 					int LastCar = Tab[i].size();
 					id = FindDico(Tab, Tab[i], i);
@@ -125,7 +131,7 @@ namespace CSVToTrans
 						os2 << Tab[i] << "=" << id << '\n';
 					}
 
-					if(Tab[i][LastCar - 1] == ';') os << '\n' ;
+					if(Tab[i][LastCar - 1] == ';') os << ' ' << '\n' ;
 				}
 			}
 			os.close();
@@ -137,7 +143,10 @@ namespace CSVToTrans
 
 int main()
 {
-	CSVToTrans::InitTab("resources.csv");
-	CSVToTrans::AddFile("resources.trans");
+	CSVToTrans::InitTab("ressources.csv");
+	CSVToTrans::AddFile("ressources.trans");
 	return 0;
 }
+
+
+
