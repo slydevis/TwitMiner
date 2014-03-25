@@ -81,22 +81,33 @@ namespace TransToCSV
 			string ligne; //Cette string servira comme r�colteur de chaque ligne du fichier
 			string decode; //Ce caract�re sera utile pour la ligne d�crite juste au dessus
 			string message; //Cette string correspond au message codé qui sera écrit dans le flux
+			string freq; //Cette string représente la fréquence du motif
 			for(getline(flux,ligne) ; !flux.eof() ; getline(flux,ligne))
 			{
 				out << '"'; //Chaque ligne du csv commence avec un "
 				for (unsigned i = 0; i < ligne.size(); i++){
-					if (ligne[i] == ' ' || ligne[i] == '\n') //Si c'est un espace, il est remplac� par ";"
+					if (ligne[i] == ' ' && !decode.empty()) //Si c'est un espace, il est remplac� par ";"
 					{
 						message = decodage(decode, ficTrad); //si c'est un espace, on d�code ce qu'il y a avant
 						out << message << '"' << ';' << '"'; // on ajoute un ";"
 						decode=""; // on r�initialise r�colte
+					}
+					else if (ligne[i] == '(')
+					{
+						for (unsigned j = (i+1); j < ligne.size(); j++)
+						{
+							if (ligne[j] == ')') break;
+							freq += ligne[j];
+						}
+						out << '(' << freq << ')';
+						freq = "";
+						break;
 					}
 					else {
 						decode += ligne[i]; // si ce n'est pas un espace, r�colte prend ce caract�re en plus
 					}
 				}
 				out << '"' << '\n'; //Chaque ligne du csv doit se terminer par un "
-				out << ligne << '\n';
 			}
 			flux.close(); //On ferme les flux
 			out.close();
