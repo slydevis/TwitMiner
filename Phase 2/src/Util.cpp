@@ -7,11 +7,11 @@
 //============================================================================
 
 #include <iostream>
+#include <sstream>
 using namespace std;
 
 namespace nsUtil
 {
-	// E A C F
 	bool contains(string str, string strCompar)
 	{
 		if(strCompar.size() > str.size()) return false;
@@ -25,6 +25,15 @@ namespace nsUtil
 			}
 		}
 		return false;
+	}
+	unsigned toUnsigned(string str)
+	{
+		unsigned result;
+		{
+			istringstream is(str);
+			is >> result;
+		}
+		return result;
 	}
 }
 int main() {
@@ -47,6 +56,10 @@ int main() {
 			cout << "It's work" << endl;
 		else
 			cout << "Don't work" << endl;
+
+	unsigned i = nsUtil::toUnsigned("2");
+
+	cout << i << endl;
 
 	return 0;
 }
