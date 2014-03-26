@@ -47,9 +47,9 @@ namespace Confiancef
 			string Motif = ""; //Cette string servira à récupérer les motifs
 			string Freq; //Cette string récupère les fréquences
 			unsigned ChiffreFreq; //Cet unsigned est le résultat de la conversion de Freq
-			vector <string> VMotif; //Ce vecteur contiendra tout les motifs uniques
-			VMotif.push_back("0");
-			vector <unsigned> NbMotif; //Ce vecteur contiendra les fréquences des motifs
+			vector <string> VMotif; //Ce vecteur contiendra tout les motifs
+			VMotif.push_back("0 ");
+			vector <float> VnbMotif; //Ce vecteur contiendra les fréquences des motifs
 			bool RemplirFreq = false;
 			for(getline(flux,ligne) ; !flux.eof() ; getline(flux,ligne))
 			{
@@ -66,8 +66,8 @@ namespace Confiancef
 					else if (ligne[i] == ')')
 					{
 						RemplirFreq = false;
-						ChiffreFreq = nsUtil::toUnsigned(Freq);
-						NbMotif.push_back(ChiffreFreq);
+						ChiffreFreq = nsUtil::toFloat(Freq);
+						VnbMotif.push_back(ChiffreFreq);
 						Freq = "";
 						break;
 					}
@@ -80,7 +80,33 @@ namespace Confiancef
 			}
 			flux.close();
 
+			//minConf défini par l'utilisateur en unsigned
+			float minConf = nsUtil::toFloat(MinConf);
+			float Conf; //Ce nombre correspond à la confiance obtenue après calcul
+			string Decode = ""; //Cette string servira à récupérer le 1er motif de chaque association
+			string SingleMotif = "";
+			unsigned k = 0;//Cette indice correspondra à la case du motif seul recherché
+			for (unsigned i = 0; i < VMotif.size(); ++i)
+			{
+				Decode = VMotif[i]; //Decode contient chaque case du tableau VMotif
 
+				//On explore decode à la recherche d'un motif unique
+				for(unsigned j = 0; Decode[j] != ' '; ++j)
+				{
+					SingleMotif+= Decode[j]; //Le motif unique est contenu dans SingleMotif
+				}
+				SingleMotif += ' ';
+				//On recherche la correspondance de SingleMotif dans le tableau VMotif
+				for(unsigned j = 0; j < VMotif.size() && k == 0; ++j)
+				{
+					if (VMotif[j] == SingleMotif)
+						k = j; //On retient l'indice de correspondance
+				}
+				SingleMotif="";
+				Conf = VnbMotif[i]/VnbMotif[k];
+				if (Conf >= minConf && Conf != 1) out << VMotif[i] << " -- " << Conf << '\n';
+				k = 0;
+			}
 		}
 }
 

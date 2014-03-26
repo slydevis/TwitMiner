@@ -27,13 +27,12 @@ namespace nsUtil
 		return false;
 	}
 
-	unsigned toUnsigned(string str)
+	float toFloat(string str)
 	{
-		unsigned result;
-		{
-			istringstream is(str);
-			is >> result;
-		}
+		stringstream is;
+		float result;
+		is.str(str);
+		is >> result;
 		return result;
 	}
 
@@ -58,7 +57,7 @@ namespace nsUtil
 			else
 				cout << "Don't work" << endl;
 
-		unsigned i = nsUtil::toUnsigned("2");
+		unsigned i = nsUtil::toFloat("2");
 
 		cout << i << endl;
 
