@@ -26,6 +26,7 @@ namespace nsUtil
 		}
 		return false;
 	}
+
 	unsigned toUnsigned(string str)
 	{
 		unsigned result;
@@ -35,31 +36,33 @@ namespace nsUtil
 		}
 		return result;
 	}
-}
-int main() {
-	bool result;
 
-	result = nsUtil::contains("EACF", "AC");
-	if(result)
-		cout << "It's work" << endl;
-	else
-		cout << "Don't work" << endl;
+	int testmain() {
+		bool result;
 
-	result = nsUtil::contains("EACF", "ABC");
+		result = nsUtil::contains("EACF", "AC");
 		if(result)
 			cout << "It's work" << endl;
 		else
 			cout << "Don't work" << endl;
 
-	result = nsUtil::contains("EACF", "ACF");
-		if(result)
-			cout << "It's work" << endl;
-		else
-			cout << "Don't work" << endl;
+		result = nsUtil::contains("EACF", "ABC");
+			if(result)
+				cout << "It's work" << endl;
+			else
+				cout << "Don't work" << endl;
 
-	unsigned i = nsUtil::toUnsigned("2");
+		result = nsUtil::contains("EACF", "ACF");
+			if(result)
+				cout << "It's work" << endl;
+			else
+				cout << "Don't work" << endl;
 
-	cout << i << endl;
+		unsigned i = nsUtil::toUnsigned("2");
 
-	return 0;
+		cout << i << endl;
+
+		return 0;
+	}
+
 }
