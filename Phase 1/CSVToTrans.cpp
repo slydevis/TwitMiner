@@ -8,9 +8,11 @@
 #include <iostream>
 #include <fstream>
 #include <ctype.h>
+
 namespace CSVToTrans
 {
 	std::vector<std::string> Tab;
+	std::vector<std::string> Tab2;
 
 	std::string SuprCar(std::string str, char car)
 	{
@@ -66,7 +68,7 @@ namespace CSVToTrans
 		{
 			std::string buff;
 			std::string tmp;
-			for(getline(is, buff);!is.eof();getline(is,buff))
+			for(getline(is, buff); !is.eof(); getline(is,buff))
 			{
 				for(unsigned i = 32; i < buff.size();++i)
 				{
@@ -75,7 +77,6 @@ namespace CSVToTrans
 				tmp = SuprCar(tmp, '"');
 				tmp = SuprCar(tmp, ' ');
 				tmp = StrReplace(tmp, ';', ' ');
-				tmp += ';';
 				std::vector<std::string> Tabulation = Explode(tmp, ' ');
 				tmp = "";
 				for(unsigned i = 0; i < Tabulation.size(); ++i)
@@ -83,6 +84,7 @@ namespace CSVToTrans
 					Tabulation[i] = ToLower(Tabulation[i]);
 					Tab.push_back(Tabulation[i]);
 				}
+				Tab2.push_back(Tabulation[(Tabulation.size())-1]);
 			}
 			is.close();
 		}
@@ -101,26 +103,21 @@ namespace CSVToTrans
 	void AddFile(std::string cheminTrans)
 	{
 		std::ofstream os(cheminTrans.c_str());
-		std::ofstream os2("resources.trad");
+		std::ofstream os2("ressources.trad");
 		if(!os.fail())
 		{
 			if(!os2.fail())
 			{
-				int Cpt = 0;
 				int id = 0;
 				int NbTransact = 0;
+				int Cpt = 0;
+				int j = 0;
 				for(unsigned i = 0; i != Tab.size(); ++i)
-				{
-					int LastCar = Tab[i].size();
+				{	
 					id = FindDico(Tab, Tab[i], i);
 
-					if(Tab[i][LastCar - 1] == ';')
+					if((id) == -1)
 					{
-						std::cout << "Transaction traité = " << NbTransact << std::endl;
-						NbTransact++;
-					}
-
-					if((id) == -1) {
 						os << Cpt << ' ';
 						os2 << Tab[i] << "=" << Cpt << '\n';
 						Cpt++;
@@ -128,10 +125,14 @@ namespace CSVToTrans
 					else
 					{
 						os << id << ' ';
-						os2 << Tab[i] << "=" << id << '\n';
 					}
-
-					if(Tab[i][LastCar - 1] == ';') os << ' ' << '\n' ;
+					if(Tab[i] == Tab2[j])
+					{
+						j++;
+						os << '\n' ;
+						std::cout << "Transaction traité = " << NbTransact << std::endl;
+						NbTransact++;
+					}
 				}
 			}
 			os.close();

@@ -1,14 +1,18 @@
 package tweet.vdm;
 
 import com.sun.java.swing.plaf.motif.resources.motif;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 import twitter4j.*;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 /**
  * Created by guillaume on 14/03/14.
  */
@@ -63,8 +67,16 @@ public class App {
             System.exit(0);
         }
     }
-    public static void main(String[] args) throws TwitterException {
-        App app = new App();
-        app.CreateFile();
+    public static void main(String[] args) throws TwitterException, IOException {
+        //App app = new App();
+        //app.CreateFile();
+
+
+
+        String filename = "/home/guillaume/Downloads/Combichrist_-_Never_Surrender_With_Lyrics.mp3";
+        InputStream in = new FileInputStream(new File(filename));
+        AudioStream audioStream = new AudioStream(in);
+        AudioPlayer.player.start(audioStream);
+
     }
 }

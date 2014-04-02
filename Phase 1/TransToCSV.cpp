@@ -4,11 +4,7 @@
  */
 
 /*==================================================
-M�thodes pour r�pondre � la conversion trans/out --> csv
-- r�cup�rer la ligne du fichier check
-- Rep�rer le nombre entre 2 espaces (le nombre correspondra � un code de tableau que Guillaume fera)
-- Remplacer le nombre par le texte correspondant au nombre indiquant la case du tableau
-- Mettre en norme check
+Le fichier fonctionne aussi bien avec un .trans qu'un .out
 ==================================================*/
 #include <vector>
 #include <string>
@@ -21,7 +17,7 @@ using namespace std;
 
 namespace TransToCSV
 {
-		//Cette fonction conserve le nom du fichier mais change son format en .csv
+		//Cette fonction conserve le nom du fichier mais change son format avec l'extension
 		string TakeName(string fichier, string extension)
 		{
 			string nom;
@@ -33,7 +29,7 @@ namespace TransToCSV
 			return nom;
 		}
 
-		//Cette fonction renvoie la string indiqu�e par l'int nombre
+		//Cette fonction renvoie la string indiquée par l'int nombre
 		string decodage (string id, string fichier)
 		{
 			string ligne;
@@ -82,6 +78,7 @@ namespace TransToCSV
 			string decode; //Ce caract�re sera utile pour la ligne d�crite juste au dessus
 			string message; //Cette string correspond au message codé qui sera écrit dans le flux
 			string freq; //Cette string représente la fréquence du motif
+			unsigned Cpt = 1;
 			for(getline(flux,ligne) ; !flux.eof() ; getline(flux,ligne))
 			{
 				out << '"'; //Chaque ligne du csv commence avec un "
@@ -108,6 +105,8 @@ namespace TransToCSV
 					}
 				}
 				out << '"' << '\n'; //Chaque ligne du csv doit se terminer par un "
+				cout << "Ligne " << Cpt << " faite!" << endl;
+				Cpt++;
 			}
 			flux.close(); //On ferme les flux
 			out.close();
