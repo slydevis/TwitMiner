@@ -1,4 +1,4 @@
-Tout les motifs ici présents sont après nettoyage.
+﻿Tout les motifs ici présents sont après nettoyage.
 //Liste des associations >= MinConf=0.5
 20 37  -- 1.16537
 2301 2303  -- 0.571307
@@ -22,21 +22,21 @@ Tout les motifs ici présents sont après nettoyage.
 2301 (1171)
 2302 (1171)
 630 646 (688)
-2301 2303 (669)
+2301 2302 (1170)
 
-//Correlation de chaque motif
-20 37  -- 9.33 x 10^-4		retenu
-2301 2303  -- 8.51 x 10^-4	retenu
-2302 2303  -- 8.51 x 10^-4	retenu
-628 646  -- 13.9 x 10^-4	retenu
-630 646  -- 13.8 x 10^-4	retenu
-628 630  -- 13.4 x 10^-4	retenu
-3 8  -- 0.99 x 10^-4		retenu
-2301 2302  -- 8.54 x 10^-4	retenu
-1172 2301  -- 7.17 x 10^-4
-1172 2302  -- 7.17 x 10^-4
-628 630 646  -- 14.0 x 10^-4	retenu
-1172 2301 2302  -- 12.6 x 10^-4	retenu
+//Correlation de chaque motif (MAJ : nouveau calcul des lifts; explication donnée par Mr.Lakhal sur la formule)
+20 37  -- 1998.4		retenu
+2301 2303  -- 381.9		
+2302 2303  -- 381.9		
+628 646  -- 661.44		retenu
+630 646  -- 654.55		retenu
+628 630  -- 690.24		retenu
+3 8  -- 9281.3			retenu
+2301 2302  -- 1159.3		retenu
+1172 2301  -- 983.6		retenu
+1172 2302  -- 983.6		retenu
+628 630 646  -- 660.48		retenu
+1172 2301 2302  -- 982.8	retenu
 
 //Utilisation des fichiers sources
 Nettoyage.cpp : à compiler avec g++ et mettre le ressources.out en argument
