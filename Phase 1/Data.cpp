@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------
  File     : Data.cpp
  Contents : data set management
- ----------------------------------------------------------------------
+ ----------------------------------------------------------------------*/
 
 #include <vector>
 #include <set>
@@ -113,6 +113,7 @@ Transaction *Data::getNextAs()
 
         list.push_back(item);
     }
+    return t;
 }
 
 Transaction *Data::getNextAsFlat()
@@ -182,4 +183,4 @@ Transaction *Data::getNextBin()
 
     return t;
 }
-*/
+

@@ -29,13 +29,13 @@ namespace
 
 		bool decodage (string id, string fichier)
 		{
-			string ligne;
-			string iden;
+			string ligne = "";
+			string iden = "";
 			bool egale = false;
 			ifstream flux(fichier.c_str(), ios::in);
 			for(getline(flux,ligne) ; !flux.eof(); getline(flux,ligne))
 			{
-				for (unsigned i = 0; i < ligne.size(); i++)
+				for (unsigned i = 0; i < (ligne.size() - 1); i++)
 				{
 					if (egale) iden += ligne[i];
 					if (ligne[i] == '=') egale = true;
@@ -46,6 +46,7 @@ namespace
 					flux.close(); // on ferme le flux
 					return true;
 				}
+				iden = "";
 			}
 			flux.close(); // on ferme le flux
 			return false;
@@ -69,24 +70,26 @@ namespace
 			string ligne; //Cette string servira comme r�colteur de chaque ligne du fichier
 			string decode; //Ce caract�re sera utile pour la ligne d�crite juste au dessus
 			string freq; //Cette string représente la fréquence du motif
+			string message; //Cette string emmagasinera chaque decode jusqu'à un ' ' ou '('
+			bool nettoyage; //Cette bool sera utile pour une meilleure présentation
 			for(getline(flux,ligne) ; !flux.eof() ; getline(flux,ligne))
 			{
+				nettoyage = false;
 				for (unsigned i = 0; i < ligne.size(); i++)
 				{
 					if (ligne[i] == ' ' && !decode.empty())
 					{
 						if (decodage(decode, ficTrad))
 						{
+							nettoyage = true;
 							break; 
 						}
-						else
-						{
-						out << decode << ' ';
+						message += decode + ' ';
 						decode="";
-						}
 					}
 					else if (ligne[i] == '(')
 					{
+						out << message;
 						for (unsigned j = (i+1); j < ligne.size(); j++)
 						{
 							if (ligne[j] == ')') break;
@@ -100,8 +103,9 @@ namespace
 						decode += ligne[i];
 					}
 				}
+				message = "";
 				decode = "";
-				out << '\n';
+				if (!nettoyage) out << '\n';
 			}
 		}
 
@@ -111,4 +115,5 @@ int main(int argc, char* argv[])
 	Nettoyage(argv[1]);
 	return 0;
 }
+
 
